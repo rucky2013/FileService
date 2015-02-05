@@ -1,4 +1,4 @@
-package com.jiaoyiping;
+package com.jiaoyiping.fileService;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

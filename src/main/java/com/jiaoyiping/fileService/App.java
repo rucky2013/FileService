@@ -1,4 +1,4 @@
-package com.jiaoyiping;
+package com.jiaoyiping.fileService;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
