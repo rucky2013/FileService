@@ -27,9 +27,8 @@ public class MongoUtil {
     }
 
     //这里的DBname是写死的
-    public DB getDB() {
-        DB db = null;
-        db = mongo.getDB(Const.MongoDBdbName);
+    public static DB getDB() {
+        DB db = mongo.getDB(Const.MongoDBdbName);
         return db;
     }
 }
