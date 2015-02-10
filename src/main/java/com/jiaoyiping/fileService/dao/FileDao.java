@@ -1,6 +1,5 @@
 package com.jiaoyiping.fileService.dao;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.jiaoyiping.fileService.domain.File;
 import com.jiaoyiping.fileService.util.Const;
 import com.jiaoyiping.fileService.util.MongoUtil;
@@ -9,7 +8,7 @@ import com.mongodb.DBObject;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
-import java.util.UUID;
+import java.util.Date;
 
 /**
  * Created with Intellij IDEA
@@ -36,7 +35,9 @@ public class FileDao {
     }
     public File getFile(String fId) {
         DBObject fields = new BasicDBObject();
-        DBObject object= MongoUtil.getDB().getCollection(Const.fileCollectionName).findOne(new BasicDBObject("_id", fId), fields);
+        fields.put("id",fId);
+        DBObject object= MongoUtil.getDB().getCollection(Const.fileCollectionName).findOne(fields);
+//        DBObject object= MongoUtil.getDB().getCollection(Const.fileCollectionName).findOne(new BasicDBObject("id", fId), fields);
         return dbObjToFile(object);
     }
 
@@ -53,7 +54,7 @@ public class FileDao {
     private static File dbObjToFile(DBObject object){
         File file = new File();
         file.setId((String )object.get("id"));
-        file.setCreateTime((Timestamp)object.get("createTime"));
+        file.setCreateTime(new Timestamp(((Date)object.get("createTime")).getTime()));
         file.setData((byte[])object.get("data"));
         file.setContentType((String)object.get("contentType"));
         file.setFileName("fileName");
