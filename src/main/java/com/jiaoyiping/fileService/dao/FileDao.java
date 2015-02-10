@@ -57,7 +57,7 @@ public class FileDao {
         file.setCreateTime(new Timestamp(((Date)object.get("createTime")).getTime()));
         file.setData((byte[])object.get("data"));
         file.setContentType((String)object.get("contentType"));
-        file.setFileName("fileName");
+        file.setFileName((String)object.get("fileName"));
         file.setSize((long)object.get("size"));
         return file;
     }

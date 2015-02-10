@@ -56,9 +56,21 @@ public class App extends SpringBootServletInitializer {
         return fileUUID;
     }
 
-    //根据文件标识符来查询文件()
+    //根据文件标识符来查询文件(列出文件名,SIZE,操作日期等,不返回具体内容)
     @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public void getFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public @ResponseBody File getFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String fileId = request.getParameter("id");
+        if (fileId != null) {
+            File file = this.fileService.getFile(fileId);
+            file.setData(null);
+            return file;
+        }
+        return null;
+    }
+
+    //下载文件
+    @RequestMapping(value = "/download", method = RequestMethod.GET)
+    public void downloadFile(HttpServletRequest request,HttpServletResponse response) throws IOException {
         String fileId = request.getParameter("id");
         if (fileId != null) {
             File file = this.fileService.getFile(fileId);
@@ -70,12 +82,7 @@ public class App extends SpringBootServletInitializer {
             outputStream.flush();
             outputStream.close();
         }
-    }
 
-    //下载文件
-    @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public String downloadFile() {
-        return null;
     }
 
     //根据文件标识符来删除文件
