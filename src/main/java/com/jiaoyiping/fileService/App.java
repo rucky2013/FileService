@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import javax.validation.constraints.Null;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -53,8 +54,12 @@ public class App extends SpringBootServletInitializer {
     }
     //根据文件标识符来查询文件()
     @RequestMapping(value = "/get",method = RequestMethod.GET)
-    public void getFile(HttpServletRequest request, HttpServletResponse response){
-
+    public @ResponseBody File getFile(HttpServletRequest request, HttpServletResponse response){
+        String fileId = request.getParameter("id");
+        if(fileId != null){
+            return this.fileService.getFile(fileId);
+        }
+        return null;
     }
 
     //下载文件

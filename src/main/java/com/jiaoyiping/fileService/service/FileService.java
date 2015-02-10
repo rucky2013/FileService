@@ -30,4 +30,8 @@ public class FileService {
         return fileDao.addFile(file);
     }
 
+    public File getFile(String fileId){
+        return this.fileDao.getFile(fileId);
+    }
+
 }

@@ -8,6 +8,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
@@ -33,11 +34,13 @@ public class FileDao {
     public void deleteFile(){
 
     }
-    public File getFile(String fId){
-        return null;
+    public File getFile(String fId) {
+        DBObject fields = new BasicDBObject();
+        DBObject object= MongoUtil.getDB().getCollection(Const.fileCollectionName).findOne(new BasicDBObject("_id", fId), fields);
+        return dbObjToFile(object);
     }
 
-    private static final DBObject fileToDBObj(File file){
+    private static DBObject fileToDBObj(File file){
         DBObject dbObject = new BasicDBObject();
         dbObject.put("fileName",file.getFileName());
         dbObject.put("contentType",file.getContentType());
@@ -47,4 +50,16 @@ public class FileDao {
         dbObject.put("id",file.getId());
         return dbObject;
     }
+    private static File dbObjToFile(DBObject object){
+        File file = new File();
+        file.setId((String )object.get("id"));
+        file.setCreateTime((Timestamp)object.get("createTime"));
+        file.setData((byte[])object.get("data"));
+        file.setContentType((String)object.get("contentType"));
+        file.setFileName("fileName");
+        file.setSize((long)object.get("size"));
+        return file;
+    }
+
+
 }
